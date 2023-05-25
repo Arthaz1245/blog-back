@@ -21,7 +21,6 @@ const userSchema = new mongoose.Schema(
       minlength: 3,
       maxlength: 1024,
     },
-   
   },
   { versionKey: false }
 );

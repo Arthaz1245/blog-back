@@ -10,8 +10,8 @@ const postSchema = new mongoose.Schema(
     },
 
     author: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      type: String,
+      required: true,
     },
     content: {
       type: String,
@@ -24,14 +24,8 @@ const postSchema = new mongoose.Schema(
       required: true,
     },
     image: {
-      public_id: {
-        type: String,
-        required: true,
-      },
-      secure_url: {
-        type: String,
-        required: true,
-      },
+      public_id: String,
+      secure_url: String,
     },
   },
   { versionKey: false }
@@ -39,4 +33,4 @@ const postSchema = new mongoose.Schema(
 
 const Post = mongoose.model("Post", postSchema);
 
-module.exports = User;
+module.exports = Post;
