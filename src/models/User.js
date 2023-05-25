@@ -21,12 +21,7 @@ const userSchema = new mongoose.Schema(
       minlength: 3,
       maxlength: 1024,
     },
-    posts: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Post",
-      },
-    ],
+   
   },
   { versionKey: false }
 );

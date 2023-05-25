@@ -19,6 +19,10 @@ const postSchema = new mongoose.Schema(
       minlength: 30,
       maxlength: 2000,
     },
+    category: {
+      type: Array,
+      required: true,
+    },
     image: {
       public_id: {
         type: String,
