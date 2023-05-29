@@ -27,6 +27,10 @@ const postSchema = new mongoose.Schema(
       public_id: String,
       secure_url: String,
     },
+    likes: {
+      type: Array,
+    },
+    comments: { type: Array },
   },
   { versionKey: false }
 );
