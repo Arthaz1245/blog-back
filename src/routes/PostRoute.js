@@ -1,7 +1,11 @@
 const express = require("express");
 const fileUpload = require("express-fileupload");
 const router = express.Router();
-const { createPost } = require("../controllers/PostController");
+const {
+  createPost,
+  getAllPosts,
+  getPostById,
+} = require("../controllers/PostController");
 
 router.post(
   "/",
@@ -11,4 +15,6 @@ router.post(
   }),
   createPost
 );
+router.get("/:id", getPostById);
+router.get("/", getAllPosts);
 module.exports = router;

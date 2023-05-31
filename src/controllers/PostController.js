@@ -16,7 +16,6 @@ const createPost = async (req, res) => {
     });
 
     if (req.files?.image) {
-      console.log(req.files);
       const result = await uploadImage(req.files.image.tempFilePath);
       post.image = {
         public_id: result.public_id,
@@ -35,6 +34,29 @@ const createPost = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+const getAllPosts = async (req, res) => {
+  try {
+    const posts = Post.find();
+    if (!posts) return res.status(400).json("There are not posts");
+    res.status(200).json(posts);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
+const getPostById = (req, res) => {
+  const { id } = req.params;
+  try {
+    const post = Post.findById(id);
+    if (!post) return res.status(400).json("This post does not exist");
+    res.status(200).json(post);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json(error);
+  }
+};
 module.exports = {
   createPost,
+  getAllPosts,
+  getPostById,
 };
