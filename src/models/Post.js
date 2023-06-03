@@ -13,6 +13,10 @@ const postSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    userId: {
+      type: String,
+      required: true,
+    },
     content: {
       type: String,
       required: true,
