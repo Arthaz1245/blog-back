@@ -1,5 +1,5 @@
 const Post = require("../models/Post");
-
+const User = require("../models/User");
 const fs = require("fs-extra");
 const { uploadImage } = require("../utils/Cloudinary");
 
@@ -57,8 +57,49 @@ const getPostById = async (req, res) => {
     res.status(500).json(error);
   }
 };
+const getPostsByUser = async (req, res) => {
+  const { userId } = req.params;
+  const user = User.findById(userId);
+  if (!user) return res.status(400).json("This user doesn't exist");
+  const posts = await Post.find();
+  const postUser = posts.filter((post) => post.userId === userId);
+  res.status(200).json(postUser);
+};
+const likePost = async (req, res) => {
+  const { userId, postId } = req.body;
+
+  const user = await User.findById(userId);
+  if (!user) return res.status(400).json("This user doesn't exist");
+  const post = await Post.findById(postId);
+  if (!post) return res.status(400).json("This post doesn't exist");
+  const didAlreadyLiked = post.likes.filter((p) => p === userId);
+  if (!didAlreadyLiked.length) {
+    await post.updateOne({ $push: { likes: userId } });
+    res.status(200).json(post);
+  } else {
+    return res.status(400).send("Invalid already added");
+  }
+};
+const unlikePost = async (req, res) => {
+  const { userId, postId } = req.body;
+
+  const user = await User.findById(userId);
+  if (!user) return res.status(400).json("This user doesn't exist");
+  const post = await Post.findById(postId);
+  if (!post) return res.status(400).json("This post doesn't exist");
+  const didAlreadyLiked = post.likes.filter((p) => p === userId);
+  if (didAlreadyLiked.length) {
+    await post.updateOne({ $pull: { likes: userId } });
+    res.status(200).json(post);
+  } else {
+    return res.status(400).send("Invalid already remove");
+  }
+};
 module.exports = {
   createPost,
   getAllPosts,
   getPostById,
+  getPostsByUser,
+  likePost,
+  unlikePost,
 };
