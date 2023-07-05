@@ -95,6 +95,35 @@ const unlikePost = async (req, res) => {
     return res.status(400).send("Invalid already remove");
   }
 };
+
+const deletePost = async (id) => {
+  try {
+    const deletedPost = await Post.findByIdAndDelete(id);
+    return deletedPost;
+  } catch (error) {
+    console.log(error);
+  }
+};
+const searchPost = async (req, res) => {
+  try {
+    const { q } = req.query;
+    if (!q) {
+      return res.status(400).json({ message: "Names parameter is missing" });
+    }
+    const post = Post.find({ title: { $in: q } });
+    return res.json(post);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const updatePost = async (id, data) => {
+  const updatedPost = await Post.findByIdAndUpdate(id, data, {
+    new: true,
+  });
+  return updatedPost;
+};
 module.exports = {
   createPost,
   getAllPosts,
@@ -102,4 +131,7 @@ module.exports = {
   getPostsByUser,
   likePost,
   unlikePost,
+  deletePost,
+  searchPost,
+  updatePost,
 };
