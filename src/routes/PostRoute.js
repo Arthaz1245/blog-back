@@ -1,5 +1,6 @@
 const express = require("express");
 const fileUpload = require("express-fileupload");
+
 const router = express.Router();
 const {
   createPost,
@@ -11,6 +12,8 @@ const {
   searchPost,
   updatePost,
   deletePost,
+  commentPost,
+  deleteCommentPost,
 } = require("../controllers/PostController");
 
 router.post(
@@ -26,6 +29,8 @@ router.get("/", getAllPosts);
 router.get("/myposts/:userId", getPostsByUser);
 router.put("/likePost", likePost);
 router.put("/unlikePost", unlikePost);
+router.delete("/deleteComment/:commentId", deleteCommentPost);
+router.post("/addComment", commentPost);
 router.get("/search", searchPost);
 router.put("/:id", async (req, res) => {
   try {

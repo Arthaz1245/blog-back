@@ -34,7 +34,7 @@ const postSchema = new mongoose.Schema(
     likes: {
       type: Array,
     },
-    comments: { type: Array },
+    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
   },
   { timestamps: true }
 );
